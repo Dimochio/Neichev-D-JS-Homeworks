@@ -1,0 +1,13 @@
+.block {
+    width: 100px;
+    height: 100px;
+    margin: 1rem;
+}
+
+.blue {
+    background-color: blue;
+}
+
+.yellow {
+    background-color: yellow;
+}
