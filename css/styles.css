@@ -1,0 +1,110 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    height: 100vh;
+}
+
+p {
+    margin: 0;
+}
+
+main {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 2rem;
+    height: 100%;
+    width: 100%;
+    padding: 3rem;
+}
+
+.task-selector {
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 auto;
+  max-width: 200px;
+  min-width: 200px;
+  padding: 1.5rem;
+  row-gap: 2rem;
+}
+
+button {
+    cursor: pointer;
+	outline: none;
+	text-decoration: none;
+	height: 35px;
+	text-align: center;
+    color: #558ed5;
+    background-color: #eef2f7;
+	border: 1px solid #eef2f7;
+	padding: 0.28rem 0.6rem;
+	line-height: 1;
+	border-radius: 4px;
+	box-shadow: 0 2px 4px 1px #3858a633;
+	font-weight: 700;	
+	transition:
+		color 0.15s ease-in-out,
+		background-color 0.15s ease-in-out,
+		border-color 0.15s ease-in-out,
+}
+
+button:hover {
+    color: #313a46;
+    background-color: #d4deeb;
+    border-color: #cbd7e7;
+}
+
+.task-selector button:not(:disabled):active {
+    background-color: #cbd7e7;
+    border-color: #c3d1e3;
+}
+
+.sandbox-wrapper {
+    max-width: 800px;
+    padding: 1rem;
+    border: 1px solid #c4c4c4;
+    flex: 1 1 auto;
+    overflow: auto;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+table.pythagoras-table tr:first-child td,
+table.pythagoras-table tr td:first-child {
+    font-weight: 600;
+    background-color: #c4c4c4;
+}
+
+td {
+    border: 1px solid black;
+    padding: 5px;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+}
+
+.color-red {
+    color: red;
+}
+
+img {
+    width: 350px;
+    height: 400px;
+    object-fit: contain;
+}
+
+.other-task,
+.other-task > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.other-task {
+    gap: 2rem;
+}
