@@ -1,6 +1,6 @@
 // Вивести таблицю Піфагора (10×10), таблиця повинна бути створена динамічно
 
-// Елемент sandbox береться із main.js;
+const sandbox = document.getElementById("sandbox");
 
 function showTask1() {
   sandbox.append(generatePythagorasTable(10));
@@ -26,4 +26,8 @@ function generatePythagorasTable(size) {
   table.append(tableBody);
 
   return table;
+}
+
+function clearSandbox () {
+  sandbox.innerHTML = '';
 }

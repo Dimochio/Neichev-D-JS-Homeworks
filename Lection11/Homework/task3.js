@@ -8,14 +8,14 @@ btnChangeImg.addEventListener("click", getRandomImg);
 
 function getRandomImg() {
   const imgSrcCollection = [
-    "./images/img1.jpg",
-    "./images/img2.jpg",
-    "./images/img3.jpg",
-    "./images/img4.jpg",
-    "./images/img5.jpg",
-    "./images/img6.jpg",
-    "./images/img7.jpg",
-    "./images/img8.png",
+    "../../images/img1.jpg",
+    "../../images/img2.jpg",
+    "../../images/img3.jpg",
+    "../../images/img4.jpg",
+    "../../images/img5.jpg",
+    "../../images/img6.jpg",
+    "../../images/img7.jpg",
+    "../../images/img8.png",
   ];
   let index = Math.floor(Math.random() * imgSrcCollection.length);
   img.setAttribute("src", imgSrcCollection[index]);
