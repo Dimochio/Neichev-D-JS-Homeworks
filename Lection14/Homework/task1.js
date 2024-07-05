@@ -29,31 +29,32 @@ imgSrcCollection.forEach((el, index) => {
   const div = document.createElement("div");
   div.classList.add("dot");
   div.addEventListener("click", () => {
-    updateImage(index);
+    imgIndex = index;
+    updateImage();
   });
   div.append(document.createElement("span"));
   indicators.append(div);
 });
 
-updateImage(imgIndex)
+updateImage();
 
 slider.addEventListener("click", (event) => {
   if (event.target.id === "prevBtn") {
     imgIndex--;
-    updateImage(imgIndex)
+    updateImage();
   }
 
   if (event.target.id === "nextBtn") {
     imgIndex++;
-    updateImage(imgIndex)
+    updateImage();
   }
 });
 
-function updateImage(index) {
-  imgEl.setAttribute("src", imgSrcCollection[index]);
-  setActiveDot(index);
-  prevButton.disabled = index == 0;
-  nextButton.disabled = index == imgSrcCollection.length - 1;
+function updateImage() {
+  imgEl.setAttribute("src", imgSrcCollection[imgIndex]);
+  setActiveDot(imgIndex);
+  prevButton.disabled = imgIndex == 0;
+  nextButton.disabled = imgIndex == imgSrcCollection.length - 1;
 }
 
 function setActiveDot(index) {
@@ -61,7 +62,7 @@ function setActiveDot(index) {
 
   if (currentActiveDot) {
     currentActiveDot.classList.remove("active");
-  }  
+  }
   currentActiveDot = dotsArr[index];
   currentActiveDot.classList.add("active");
 }
