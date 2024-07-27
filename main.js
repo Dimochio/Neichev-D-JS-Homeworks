@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+  //init tooltips
   const tooltipTriggerList = document.querySelectorAll(
     '[data-bs-toggle="tooltip"]'
   );
