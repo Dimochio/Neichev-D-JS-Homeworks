@@ -11,6 +11,8 @@
 // За допомогою Bootstrap створити модальне вікно до TODO list,
 // яке по кліку на завдання буде показувати вікно з його текстом.
 
+// Оптимізовано за допомогою babel
+
 const $taskInput = $("#taskInput");
 const $addTaskBtn = $("#addTaskBtn");
 const $taskList = $("#taskList");
@@ -70,7 +72,7 @@ function saveTasks() {
 }
 
 function addTask(inputValue) {
-  if (inputValue && inputValue.trim() !== "") {
+  if (inputValue.trim() !== "") {
     tasksArr.push(new Task(inputValue));
   }
 }
