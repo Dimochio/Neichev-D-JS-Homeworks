@@ -72,6 +72,7 @@ main {
 }
 
 button {
+  white-space: nowrap;
   outline: none;
   text-decoration: none;
   height: 35px;
@@ -185,7 +186,6 @@ img {
   overflow: auto;
   max-height: 300px;
 }
-
 .to-do-list li {
   display: flex;
   padding: 0.5rem;
@@ -195,9 +195,18 @@ img {
   width: 300px;
   border-bottom: 1px solid #c4c4c4;
 }
-
 .to-do-list li button {
   margin-left: auto;
+}
+.to-do-list li span {
+  cursor: pointer;
+  display: block;
+  padding: 0.6rem 0;
+  height: 100%;
+  flex: 1 1 auto;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 .to-do-list li.done span {
   color: #c4c4c4;
