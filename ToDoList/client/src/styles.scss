@@ -1,0 +1,5 @@
+//Base styles imports
+@import "./scss/variables.scss", "./scss/nullify.scss", "./scss/common.scss";
+
+//Components styles import
+@import "./scss/todo-list.scss";
