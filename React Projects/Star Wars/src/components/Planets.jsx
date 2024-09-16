@@ -1,44 +1,58 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import {
+  Box,
+  Heading,
+  UnorderedList,
+  ListItem,
+  Divider,
+  Spinner,
+} from "@chakra-ui/react";
 import PlanetDetails from "./PlanetDetails";
-
-const planets = [
-  { name: "Tatooine", details: "Details about Tatooine" },
-  { name: "Alderaan", details: "Details about Alderaan" },
-  { name: "Hoth", details: "Details about Hoth" },
-];
+import { useDispatch, useSelector } from "react-redux";
+import { getPlanets } from "../redux/Slices/planetSlice";
 
 function PlanetList() {
-  const [selectedPlanet, setSelectedPlanet] = useState(planets[0]);
+  const dispatch = useDispatch();
+  const { planets, loading } = useSelector((state) => state.planets);
 
-  const handleClick = (starship) => {
-    setSelectedPlanet(starship);
+  const handleClick = (planet) => {
+    setSelectedPlanet(planet);
   };
 
+  useEffect(() => {
+    dispatch(getPlanets());
+  }, [dispatch]);
+
+  const [selectedPlanet, setSelectedPlanet] = useState();
+
+  if (loading) return <Spinner size="lg" />;
+
   return (
-    <>
-      <div className="container-fluid">
-        <h2 className="d-flex align-items-center justify-content-center mb-3">
-          Planets
-        </h2>
-        <ul>
-          {planets.map((planet, index) => (
-            <li
-              className="cursor-pointer mb-2"
-              key={index}
-              onClick={() => handleClick(planet)}
-            >
-              {planet.name}
-            </li>
-          ))}
-        </ul>
-      </div>
+    <Box className="container-fluid">
+      <Heading as="h2" size="lg" textAlign="center" mb={4}>
+        Planets
+      </Heading>
+      <UnorderedList styleType="none" m={0} p={0}>
+        {planets.map((planet, index) => (
+          <ListItem
+            key={index}
+            cursor="pointer"
+            mb={2}
+            _hover={{ color: "blue.500" }}
+            onClick={() => handleClick(planet)}
+          >
+            {planet.name}
+          </ListItem>
+        ))}
+      </UnorderedList>
+
       {selectedPlanet && (
         <>
-          <hr />
+          <Divider my={4} />
           <PlanetDetails selectedPlanet={selectedPlanet} />
         </>
       )}
-    </>
+    </Box>
   );
 }
 

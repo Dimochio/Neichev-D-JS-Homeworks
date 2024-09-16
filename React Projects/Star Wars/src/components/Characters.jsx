@@ -1,44 +1,58 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import {
+  Box,
+  Heading,
+  UnorderedList,
+  ListItem,
+  Divider,
+  Spinner,
+} from "@chakra-ui/react";
 import CharacterDetails from "./CharacterDetails";
-
-const characters = [
-  { name: "Luke Skywalker", details: "Details about Luke Skywalker" },
-  { name: "Darth Vader", details: "Details about Darth Vader" },
-  { name: "Leia Organa", details: "Details about Leia Organa" },
-];
+import { useDispatch, useSelector } from "react-redux";
+import { getCharacters } from "../redux/Slices/characterSlice";
 
 function CharacterList() {
-  const [selectedCharacter, setSelectedCharacter] = useState(characters[0]);
+  const dispatch = useDispatch();
+  const { characters, loading } = useSelector((state) => state.characters);
 
   const handleClick = (character) => {
     setSelectedCharacter(character);
   };
 
+  useEffect(() => {
+    dispatch(getCharacters());
+  }, [dispatch]);
+
+  const [selectedCharacter, setSelectedCharacter] = useState();
+
+  if (loading) return <Spinner size="lg" />;
+
   return (
-    <>
-      <div className="container-fluid">
-        <h2 className="d-flex align-items-center justify-content-center mb-3">
-          Characters
-        </h2>
-        <ul>
-          {characters.map((character, index) => (
-            <li
-              className="cursor-pointer mb-2"
-              key={index}
-              onClick={() => handleClick(character)}
-            >
-              {character.name}
-            </li>
-          ))}
-        </ul>
-      </div>
+    <Box className="container-fluid">
+      <Heading as="h2" size="lg" textAlign="center" mb={4}>
+        Planets
+      </Heading>
+      <UnorderedList styleType="none" m={0} p={0}>
+        {characters.map((character, index) => (
+          <ListItem
+            key={index}
+            cursor="pointer"
+            mb={2}
+            _hover={{ color: "blue.500" }}
+            onClick={() => handleClick(character)}
+          >
+            {character.name}
+          </ListItem>
+        ))}
+      </UnorderedList>
+
       {selectedCharacter && (
         <>
-          <hr />
+          <Divider my={4} />
           <CharacterDetails selectedCharacter={selectedCharacter} />
         </>
       )}
-    </>
+    </Box>
   );
 }
 

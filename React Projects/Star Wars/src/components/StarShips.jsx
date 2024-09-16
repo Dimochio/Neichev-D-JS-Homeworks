@@ -1,44 +1,58 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import {
+  Box,
+  Heading,
+  UnorderedList,
+  ListItem,
+  Divider,
+  Spinner,
+} from "@chakra-ui/react";
 import StarshipDetails from "./StarShipDetails";
-
-const starships = [
-  { name: "Millennium Falcon", details: "Details about Millennium Falcon" },
-  { name: "X-Wing", details: "Details about X-Wing" },
-  { name: "TIE Fighter", details: "Details about TIE Fighter" },
-];
+import { useDispatch, useSelector } from "react-redux";
+import { getStarShips } from "../redux/Slices/starShipSlice";
 
 function StarshipList() {
-  const [selectedStarship, setSelectedStarship] = useState(starships[0]);
+  const dispatch = useDispatch();
+  const { starShips, loading } = useSelector((state) => state.starShips);
 
   const handleClick = (starship) => {
     setSelectedStarship(starship);
   };
+
+  useEffect(() => {
+    dispatch(getStarShips());
+  }, [dispatch]);
+
+  const [selectedStarship, setSelectedStarship] = useState();
+
+  if (loading) return <Spinner size="lg" />;
+
   return (
-    <>
-      <div className="container-fluid">
-        <h2 className="d-flex align-items-center justify-content-center mb-3">
-          Starships
-        </h2>
-        <ul>
-          {starships.map((starship, index) => (
-            <li
-              className="cursor-pointer mb-2"
-              key={index}
-              onClick={() => handleClick(starship)}
-            >
-              {starship.name}
-            </li>
-          ))}
-        </ul>
-      </div>
+    <Box className="container-fluid">
+      <Heading as="h2" size="lg" textAlign="center" mb={4}>
+        Star Ships
+      </Heading>
+      <UnorderedList styleType="none" m={0} p={0}>
+        {starShips.map((starship, index) => (
+          <ListItem
+            key={index}
+            cursor="pointer"
+            mb={2}
+            _hover={{ color: "blue.500" }}
+            onClick={() => handleClick(starship)}
+          >
+            {starship.name}
+          </ListItem>
+        ))}
+      </UnorderedList>
 
       {selectedStarship && (
         <>
-          <hr />
+          <Divider my={4} />
           <StarshipDetails selectedStarship={selectedStarship} />
         </>
       )}
-    </>
+    </Box>
   );
 }
 
