@@ -1,19 +1,52 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import Icon from "@mdi/react";
+import { mdiPencilOutline, mdiCheck } from "@mdi/js";
 import { useSelector, useDispatch } from "react-redux";
 import {
+  Box,
   OrderedList,
   ListItem,
-  CloseButton,
-  Box,
-  Divider,
   Checkbox,
+  Button,
+  CloseButton,
   Text,
+  Divider,
+  Input,
 } from "@chakra-ui/react";
-import { remove, toggleIsDone } from "../reduxSlices/toDoSlice";
+import {
+  loadRequest,
+  updateRequest,
+  removeRequest,
+} from "../redux/reduxSlices/toDoSlice";
 
 const TodoList = () => {
-  const todos = useSelector((state) => state.todo.todos);
   const dispatch = useDispatch();
+  const todos = useSelector((state) => state.todo.todos);
+  const [editingId, setEditingId] = useState(null);
+  const [editText, setEditText] = useState("");
+
+  const handleEditClick = (todo) => {
+    setEditingId(todo.id);
+    setEditText(todo.text);
+  };
+
+  const handleSaveClick = (todo) => {
+    dispatch(
+      updateRequest({
+        id: todo.id,
+        todo: {
+          id: todo.id,
+          text: editText,
+          isDone: todo.isDone,
+        },
+      })
+    );
+    setEditingId(null);
+  };
+
+  useEffect(() => {
+    dispatch(loadRequest());
+  }, [dispatch]);
 
   return (
     <Box mt={4}>
@@ -30,59 +63,83 @@ const TodoList = () => {
           borderColor: "gray.300",
         }}
       >
-        {todos.map((task) => (
-          <React.Fragment key={task.id}>
+        {todos.map((todo) => (
+          <React.Fragment key={todo.id}>
             <ListItem
               sx={{
                 padding: 2,
                 marginLeft: 4,
               }}
-              className="list-item"
             >
               <Box
                 sx={{
                   display: "flex",
                   alignItems: "center",
-                  justifyContent: "space-between",
-                  flexWrap: "nowrap",
                   columnGap: 3,
                 }}
               >
-                <Box lineHeight={"1"}>
-                  <Checkbox
-                    onChange={() => dispatch(toggleIsDone(task.id))}
-                    isChecked={task.isDone}
+                <Checkbox
+                  isChecked={todo.isDone}
+                  onChange={() =>
+                    dispatch(
+                      updateRequest({
+                        id: todo.id,
+                        todo: {
+                          id: todo.id,
+                          text: todo.text,
+                          isDone: !todo.isDone,
+                        },
+                      })
+                    )
+                  }
+                />
+                {editingId === todo.id ? (
+                  <Input
+                    value={editText}
+                    onChange={(e) => setEditText(e.target.value)}
+                    size="sm"
                   />
-                </Box>
-                <Text as="span" className={task.isDone ? "task-completed" : ""}>
-                  {task.text}
-                </Text>
-
+                ) : (
+                  <Text
+                    as="span"
+                    className={todo.isDone ? "task-completed" : ""}
+                  >
+                    {todo.text}
+                  </Text>
+                )}
+                {editingId === todo.id ? (
+                  <Button
+                    marginLeft="auto"
+                    size="sm"
+                    onClick={() => handleSaveClick(todo)}
+                    aria-label="Save task"
+                  >
+                    <Icon path={mdiCheck} size={1} />
+                  </Button>
+                ) : (
+                  <Button
+                    marginLeft="auto"
+                    width="42px"
+                    size="sm"
+                    onClick={() => handleEditClick(todo)}
+                    aria-label="Edit task"
+                  >
+                    <Icon path={mdiPencilOutline} size={1} />
+                  </Button>
+                )}
                 <CloseButton
-                  ml={"auto"}
+                  onClick={() => dispatch(removeRequest(todo.id))}
                   sx={{
                     width: "25px",
                     height: "25px",
-                    padding: 1,
                   }}
-                  onClick={() => dispatch(remove(task.id))}
                 />
               </Box>
             </ListItem>
-            <Divider
-              sx={{
-                marginTop: "0 !important",
-              }}
-              _last={{
-                display: "none",
-              }}
-            />
+            <Divider _last={{ display: "none" }} />
           </React.Fragment>
         ))}
       </OrderedList>
-      <Box mt={2}>
-        <Text>Total items: {todos.length}</Text>
-      </Box>
     </Box>
   );
 };

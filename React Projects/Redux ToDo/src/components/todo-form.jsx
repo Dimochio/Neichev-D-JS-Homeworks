@@ -1,7 +1,7 @@
 import { useFormik } from "formik";
 import { Button, Input, Box, Text } from "@chakra-ui/react";
 import { useDispatch } from "react-redux";
-import { add } from "../reduxSlices/toDoSlice";
+import { addRequest } from "../redux/reduxSlices/toDoSlice";
 
 const TodoForm = () => {
   const dispatch = useDispatch();
@@ -20,7 +20,12 @@ const TodoForm = () => {
       return errors;
     },
     onSubmit: (values, { resetForm }) => {
-      dispatch(add(values.taskText));
+      const newTodo = {
+        id: Date.now(),
+        text: values.taskText,
+        isDone: false,
+      };
+      dispatch(addRequest(newTodo));
       resetForm();
     },
   });
@@ -47,6 +52,7 @@ const TodoForm = () => {
               ? "red.500"
               : "gray.200"
           }
+          aria-label="Task input"
         />
         <Button type="submit" colorScheme="teal">
           Add Task
