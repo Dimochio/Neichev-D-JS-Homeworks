@@ -1,0 +1,7 @@
+#root {
+  height: 100vh;
+}
+
+.chakra-form-control {
+  max-width: 260px;
+}
